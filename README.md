@@ -11,6 +11,7 @@ A Python application that analyzes resumes against job descriptions and provides
 
 ## Tech Stack
 
+(Python + Streamlit)
 Python, PyPDF2
 
 ## Workflow

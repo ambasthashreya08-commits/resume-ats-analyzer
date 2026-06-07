@@ -1,4 +1,6 @@
 import streamlit as st
+from utils import extract_text
+import tempfile
 
 st.title("Resume ATS Analyzer")
 
@@ -12,25 +14,31 @@ job_description = st.text_area(
 )
 
 if st.button("Analyze Resume"):
-    
-    jd_words = job_description.lower().split()
 
-    matched = []
+    if uploaded_file is not None and job_description:
 
-    resume_name = uploaded_file.name.lower()
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+            tmp_file.write(uploaded_file.read())
+            pdf_path = tmp_file.name
 
-    for word in jd_words:
-        if word in resume_name:
-            matched.append(word)
+        resume_text = extract_text(pdf_path).lower()
 
-    score = min(len(matched) * 10, 100)
+        keywords = job_description.lower().split()
 
-    st.metric("ATS Score", f"{score}%")
+        matched_keywords = []
 
-    st.subheader("Matched Keywords")
+        for keyword in keywords:
+            if keyword in resume_text:
+                matched_keywords.append(keyword)
 
-    if matched:
-        for keyword in matched:
-            st.write(f"✅ {keyword}")
-    else:
-        st.write("No matching keywords found")
+        ats_score = (len(matched_keywords) / len(keywords)) * 100
+
+        st.metric("ATS Score", f"{ats_score:.2f}%")
+
+        st.subheader("Matched Keywords")
+
+        if matched_keywords:
+            for keyword in matched_keywords:
+                st.write(f"✅ {keyword}")
+        else:
+            st.write("No matching keywords found")

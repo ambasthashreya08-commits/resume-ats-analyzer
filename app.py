@@ -1,27 +1,15 @@
-from utils import extract_text
+import streamlit as st
 
-job_description = """
-python
-sql
-machine learning
-data analysis
-communication
-"""
+st.title("Resume ATS Analyzer")
 
-resume_text = extract_text("sample_resume.pdf")
+uploaded_file = st.file_uploader(
+    "Upload Resume (PDF)",
+    type=["pdf"]
+)
 
-keywords = job_description.lower().split()
+job_description = st.text_area(
+    "Paste Job Description"
+)
 
-matched_keywords = []
-
-for keyword in keywords:
-    if keyword in resume_text.lower():
-        matched_keywords.append(keyword)
-
-ats_score = (len(matched_keywords) / len(keywords)) * 100
-
-print(f"ATS Score: {ats_score:.2f}%")
-print("\nMatched Keywords:")
-
-for keyword in matched_keywords:
-    print(f"- {keyword}")
+if st.button("Analyze Resume"):
+    st.success("Resume analysis feature coming next")

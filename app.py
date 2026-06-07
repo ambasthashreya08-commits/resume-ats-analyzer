@@ -12,4 +12,25 @@ job_description = st.text_area(
 )
 
 if st.button("Analyze Resume"):
-    st.success("Resume analysis feature coming next")
+    
+    jd_words = job_description.lower().split()
+
+    matched = []
+
+    resume_name = uploaded_file.name.lower()
+
+    for word in jd_words:
+        if word in resume_name:
+            matched.append(word)
+
+    score = min(len(matched) * 10, 100)
+
+    st.metric("ATS Score", f"{score}%")
+
+    st.subheader("Matched Keywords")
+
+    if matched:
+        for keyword in matched:
+            st.write(f"✅ {keyword}")
+    else:
+        st.write("No matching keywords found")

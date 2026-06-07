@@ -29,3 +29,11 @@ Matched Keywords:
 - Python
 - SQL
 - Data Analysis
+
+## Future Enhancements
+
+- AI-based resume suggestions
+- Skill gap analysis
+- Resume ranking system
+- Multiple resume comparison
+- Interview preparation recommendations
